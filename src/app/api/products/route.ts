@@ -13,8 +13,7 @@ export async function GET() {
     await connectToDatabase();
 
     // Fetch all products from the database as plain JavaScript objects
-    const products = await Product.find({}).lean();
-
+    const products = await Product.find({});
     // Return the products as a JSON response with a 200 OK status
     return NextResponse.json(products, { status: 200 });
   } catch (error) {

@@ -1,39 +1,66 @@
-// Import the ProductGrid component to display the list of products
-import { ProductDocument } from '@/models/Product';
+'use client';
+
+import { useEffect, useState } from 'react';
 import { ProductGrid } from './product-grid';
+import { ProductDocument } from '@/models/Product';
 
-// Define the structure of a product
-// Asynchronous function to fetch products from the API
-async function getProducts(): Promise<ProductDocument[]> {
-  // Fetch the products from the API endpoint
-  // Use a relative URL to ensure it works in different environments
-  const res = await fetch('http://localhost:3000/api/products', {
-    // Set cache options if necessary (e.g., 'no-store' for fresh data)
-    cache: 'no-store',
-  });
+/**
+ * ProductsPage Component
+ * Displays a list of products fetched from the API.
+ */
+export default function ProductsPage() {
+  // State to hold the fetched products
+  const [products, setProducts] = useState<ProductDocument[]>([]);
+  // State to track loading status
+  const [loading, setLoading] = useState<boolean>(true);
+  // State to hold error messages (if any)
+  const [error, setError] = useState<string | null>(null);
 
-  // Check if the response is not OK (status code outside the range 200-299)
-  if (!res.ok) {
-    // Throw an error to be caught by an error boundary or error handling
-    throw new Error('Failed to fetch products');
+  /**
+   * Fetches products from the API when the component mounts.
+   */
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        // Fetch data from the API
+        const response = await fetch('/api/products');
+
+        // Handle non-OK HTTP responses
+        if (!response.ok) {
+          throw new Error(`Failed to fetch products: ${response.statusText}`);
+        }
+
+        // Parse and set products data
+        const data: ProductDocument[] = await response.json();
+        setProducts(data);
+      } catch (err: unknown) {
+        // Handle and log errors
+        const errorMessage = "Failed to fetch products";
+        setError(errorMessage);
+      } finally {
+        // Ensure loading is set to false after fetching
+        setLoading(false);
+      }
+    };
+
+    // Call the fetch function
+    fetchProducts();
+  }, []); // Empty dependency array ensures this effect runs once on mount
+
+  // Render loading state
+  if (loading) {
+    return <p>Loading...</p>;
   }
 
-  // Parse the response as JSON and return the products data
-  const data = await res.json();
-  return data as ProductDocument[];
-}
+  // Render error state
+  if (error) {
+    return <p className="text-red-500">{error}</p>;
+  }
 
-// Default export of the ProductsPage component
-export default async function ProductsPage() {
-  // Fetch the products data by calling the getProducts function
-  const products = await getProducts();
-
-  // Render the products page with a title and the ProductGrid component
+  // Render products grid
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Page title */}
       <h1 className="text-3xl font-bold mb-6">Our Products</h1>
-      {/* Render the ProductGrid component with the fetched products */}
       <ProductGrid products={products} />
     </div>
   );
