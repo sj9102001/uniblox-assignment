@@ -1,8 +1,5 @@
-
 ## Project Documentation
-
 ### Overview
-
 This project is an eCommerce application built using:
 
 -   **Next.js** for server-side rendering and routing.
@@ -10,6 +7,42 @@ This project is an eCommerce application built using:
 -   **TypeScript** for type safety.
 -   **MongoDB** for data storage.
 -   **Jest** for unit testing.
+
+----------
+
+### Prerequisites
+Ensure you have the following installed on your system:
+
+- Node.js (LTS version recommended)
+- npm
+- MongoDB (either a local setup or a cloud-hosted MongoDB instance)
+### Setup Instructions
+Follow these steps to clone, set up, and run the project:
+
+1. Clone the Repository
+
+    `git clone <REPOSITORY_LINK>`
+    `cd <PROJECT_DIRECTORY>`
+2. Install Dependencies
+Run the following command to install the required dependencies:
+
+	`npm install`
+3. Create a .env File
+In the root of the project directory, create a .env file and add the following environment variable:
+
+	`MONGODB_URI=<DATABASE_URI>`
+Replace <DATABASE_URI> with the URI of your MongoDB instance. For example:
+
+	`MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/mydatabase`
+4. Run the Project
+Start the development server using the command:
+
+	`npm run dev`
+5. Access the Application
+Once the server starts, you can access the application at:
+	http://localhost:3000
+
+----------
 
 ### Folder Structure
 
