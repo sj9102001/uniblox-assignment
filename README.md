@@ -1,36 +1,136 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+## Project Documentation
 
-First, run the development server:
+### Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This project is an eCommerce application built using:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+-   **Next.js** for server-side rendering and routing.
+-   **ShadCN UI** and **TailwindCSS** for styling.
+-   **TypeScript** for type safety.
+-   **MongoDB** for data storage.
+-   **Jest** for unit testing.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Folder Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+#### `src/app`
 
-## Learn More
+-   **admin**: Contains admin-related pages and components for managing coupons, orders, and products.
+-   **api**: Backend API handlers for fetching and modifying data such as products, orders, and coupons.
+-   **checkout**: Contains the checkout flow implementation.
+-   **context**: Houses React context for global state management, such as the cart.
+-   **fonts**: Manages custom fonts.
+-   **orders**: Contains the orders page for users to view their placed orders.
 
-To learn more about Next.js, take a look at the following resources:
+#### `src/components`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Contains reusable UI components.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### `src/lib`
 
-## Deploy on Vercel
+Utility functions and library configurations, such as MongoDB connection setup.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### `src/models`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Schemas and models for MongoDB collections (e.g., `Product`, `Order`, `Coupon`).
+
+#### `src/types`
+
+Type definitions for consistent data structure across the project.
+
+----------
+
+### Components and Features
+
+#### 1. **Products Page**
+
+-   **Path**: `src/app/products`
+-   Displays a grid of products fetched from `/api/products`.
+-   **Key Functions**:
+    -   Fetch products on mount using `useEffect`.
+    -   Show loading spinner or error message during fetch states.
+    -   Render a product grid using the `ProductGrid` component.
+
+#### 2. **Product Grid**
+
+-   **Path**: `src/app/products/product-grid.tsx`
+-   Displays product cards with details like image, price, stock, and actions (add to cart, update quantity).
+-   **Key Features**:
+    -   Quantity control for cart items.
+    -   Integration with the cart context to manage cart state.
+
+#### 3. **Cart Context**
+
+-   **Path**: `src/app/context/CartContext.tsx`
+-   Provides a global state for managing cart items.
+-   **Key Functions**:
+    -   Add, update, and remove items from the cart.
+    -   Persist cart state in `localStorage`.
+
+#### 4. **Checkout Page**
+
+-   **Path**: `src/app/checkout`
+-   Allows users to complete their purchase.
+-   **Key Features**:
+    -   Displays cart summary and allows quantity adjustments.
+    -   Fetches available coupons and applies discounts.
+    -   Submits order details to `/api/orders`.
+
+#### 5. **Orders Page**
+
+-   **Path**: `src/app/orders`
+-   Displays a user's order history fetched from `/api/orders`.
+-   **Key Features**:
+    -   Fetches and renders a list of orders with details (items, total price, date).
+    -   Shows a loading spinner or error message during fetch states.
+
+#### 6. **Admin Dashboard**
+
+-   **Path**: `src/app/admin`
+-   Provides insights into sales, discount codes, and product stats.
+-   **Key Features**:
+    -   Fetches admin stats from `/api/admin`.
+    -   Generates new discount codes via `/api/admin/discount`.
+
+----------
+
+### API Routes
+
+#### 1. **Products**
+
+-   **Path**: `/api/products`
+-   Handles fetching products from MongoDB.
+
+#### 2. **Orders**
+
+-   **Path**: `/api/orders`
+-   Handles fetching and creating orders.
+
+#### 3. **Coupons**
+
+-   **Path**: `/api/coupons`
+-   Handles fetching available coupons.
+
+#### 4. **Admin Stats**
+
+-   **Path**: `/api/admin`
+-   Provides aggregated sales and discount stats for the admin dashboard.
+
+#### 5. **Generate Discount Code**
+
+-   **Path**: `/api/admin/discount`
+-   Generates a new discount code.
+
+----------
+
+### Styling
+
+-   The project uses **TailwindCSS** for utility-based styling.
+-   **ShadCN UI** provides reusable styled components like `Card`, `Button`, and `Alert`.
+
+----------
+
+### Testing
+
+-   **Jest** is used for unit testing.
+-   Unit tests are located in respective component pages.
